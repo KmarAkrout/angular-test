@@ -18,7 +18,7 @@ export class PostsListComponent implements OnInit {
   }
 
   getPosts() {
-    this.posts = this.postservice.getpostsList();
+    this.posts = this.postservice.getPostsList();
   }
 
   managePost(post) {

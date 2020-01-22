@@ -8,7 +8,7 @@ export class PostsService {
   private selectedPostSubject = new BehaviorSubject<Post>(null);
   constructor(private http: HttpClient) { }
 
-  getpostsList(): Observable<Post[]> {
+  getPostsList(): Observable<Post[]> {
     return this.http.get<Post[]>('https://jsonplaceholder.typicode.com/posts');
   }
 
