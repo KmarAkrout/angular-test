@@ -40,7 +40,8 @@ export class PostsEditComponent implements OnInit {
   }
 
   updatePost(post: Post) {
-    this.postsService.updatePost(post).subscribe((updated) => {
+    this.postsService.updatePost(post).subscribe(() => {
+      this.setCountDown();
       alert('Successfully edited');
     }, error => {
       alert('Edit Error');

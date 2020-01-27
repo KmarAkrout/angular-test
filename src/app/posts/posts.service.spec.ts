@@ -21,8 +21,10 @@ describe('PostsService', () => {
     postsMock = new PostsMock();
   });
 
-  it('should be created', () => {
-    expect(service).toBeTruthy();
+  describe('Init Status', () => {
+    it('should be created', () => {
+      expect(service).toBeTruthy();
+    });
   });
 
   describe('Posts Get All', () => {

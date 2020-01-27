@@ -5,7 +5,7 @@ import { PostsListComponent } from './posts-list/posts-list.component';
 import { PostsEditComponent } from './posts-edit/posts-edit.component';
 
 
-const postsRoutes: Routes = [
+export const postsRoutes: Routes = [
   {
     path: '',
     component: PostsComponent,

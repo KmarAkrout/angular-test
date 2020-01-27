@@ -3,7 +3,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { PostsComponent } from './posts.component';
 import { RouterTestingModule } from '@angular/router/testing';
 
-describe('postsComponent', () => {
+describe('PostsComponent', () => {
   let component: PostsComponent;
   let fixture: ComponentFixture<PostsComponent>;
 

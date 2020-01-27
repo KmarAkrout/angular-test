@@ -1,32 +1,32 @@
 <div *ngIf="post" class=" mt-3">
   <div class="d-flex justify-content-center">
-    <button style="left: 48px;" class="position-absolute sticky-left btn btn-outline-dark" routerLink="../">Go back</button>
-    <h3>Edit post with Id = {{post.id}}</h3>
+    <button style="left: 48px;" class="go-back-main position-absolute sticky-left btn btn-outline-dark" routerLink="../">Go back</button>
+    <h3 class="edit-title">Edit post with Id = {{post.id}}</h3>
   </div>
   <div class="mt-4 mx-5">
     <div class="input-group mb-3">
       <div class="input-group-prepend">
         <span class="input-group-text" id="basic-addon3">Title</span>
       </div>
-      <input type="text" class="form-control" placeholder="Title" [(ngModel)]="post.title">
+      <input type="text" class="form-control title-input" placeholder="Title" [(ngModel)]="post.title">
     </div>
     <div class="input-group mb-3">
-      <div class="input-group-prepend">
+      <div class="input-group-prepend">k
         <span class="input-group-text" id="basic-addon3">Post</span>
       </div>
       <textarea type="text" class="form-control" placeholder="Post" rows="5" [(ngModel)]="post.body"></textarea>
     </div>
   </div>
   <div class="d-flex justify-content-end mx-5">
-    <button (click)="updatePost(post)" class="btn btn-secondary">Edit Post</button>
+    <button (click)="updatePost(post)" class="edit-button btn btn-secondary">Edit Post</button>
   </div>
 </div>
 <div class="mt-5" *ngIf="!post">
   <div class="d-flex justify-content-center ">
-    <button style="left: 48px;" class="position-absolute sticky-left btn btn-outline-dark" routerLink="../">Go back</button>
-    <h3>No selected post</h3>
+    <button style="left: 48px;" class="no-selection-btn-nav position-absolute sticky-left btn btn-outline-dark" routerLink="../">Go back</button>
+    <h3 class="no-selection">No selected post</h3>
   </div>
-  <div class="font-weight-bold d-flex justify-content-center">
+  <div class="count-down font-weight-bold d-flex justify-content-center">
     {{coundown | number:'1.1-2'}}
   </div>
 </div>
