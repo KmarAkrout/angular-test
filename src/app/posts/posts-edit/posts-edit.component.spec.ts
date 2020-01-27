@@ -147,23 +147,24 @@ describe('PostsEditComponent', () => {
     describe('Post is not present case', () => {
       beforeEach(() => {
         postServiceMock.getSelectedPost.and.returnValue(of(null));
-        component.getPost();
       });
 
-      it('should call setCountDown when post is not present', () => {
+      it('should call setCountDown when post is not present', done => {
         spyOn(component, 'setCountDown');
+        fixture.detectChanges();
         postServiceMock.getSelectedPost().subscribe(() => {
-          fixture.detectChanges();
           expect(component.setCountDown).toHaveBeenCalled();
+          done();
         });
       });
 
-      it('should call navigateToHomeAfterTimeOut with value when post is not present', () => {
+      it('should call navigateToHomeAfterTimeOut with value when post is not present', done => {
         spyOn(component, 'navigateToHomeAfterTimeOut');
         component.coundown = 5;
+        fixture.detectChanges();
         postServiceMock.getSelectedPost().subscribe(() => {
-          fixture.detectChanges();
           expect(component.navigateToHomeAfterTimeOut).toHaveBeenCalledWith(component.coundown * 1000);
+          done();
         });
       });
 
