@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed, tick, fakeAsync } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { PostsEditComponent } from './posts-edit.component';
 import { FormsModule } from '@angular/forms';
@@ -11,8 +11,6 @@ import { Location } from '@angular/common';
 import { PostsMock } from 'src/app/testing/PostsMock';
 import { IntructionsHelper } from 'src/app/testing/InstructionsHelper';
 import { Component } from '@angular/core';
-import { dependenciesFromGlobalMetadata } from '@angular/compiler/src/render3/r3_factory';
-import { Post } from '../models/post';
 
 describe('PostsEditComponent', () => {
   let component: PostsEditComponent;
