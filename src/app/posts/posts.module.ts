@@ -11,11 +11,9 @@ import { PostsRoutingModule } from './posts-routing.module';
 @NgModule({
   declarations: [PostsListComponent, PostsEditComponent, PostsComponent],
   imports: [
-    CommonModule,
-    HttpClientModule,
-    PostsRoutingModule,
-    FormsModule
+    CommonModule, HttpClientModule, PostsRoutingModule, FormsModule
   ],
   providers: [PostsService]
 })
-export class PostsModule { }
+export class PostsModule {
+}
