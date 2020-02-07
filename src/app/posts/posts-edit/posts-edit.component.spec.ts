@@ -3,8 +3,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { PostsEditComponent } from './posts-edit.component';
 import { FormsModule } from '@angular/forms';
 import { PostsService } from '../posts.service';
-import { of } from 'rxjs';
-import { throwError } from 'rxjs';
+import { of, throwError } from 'rxjs';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Router } from '@angular/router';
 import { Location } from '@angular/common';
@@ -18,27 +17,40 @@ describe('PostsEditComponent', () => {
   let postServiceMock: any;
   let getSelectedPostMock: any;
   let updatePostMock: any;
+  let getCommentsOfPostIdMock: any;
   let router: Router;
   let location: Location;
   let postsMock: PostsMock;
   let htmlUtil: IntructionsHelper<PostsEditComponent>;
   beforeEach(async(() => {
-    postServiceMock = jasmine.createSpyObj('PostsService', ['getSelectedPost', 'updatePost']);
+    postServiceMock = jasmine.createSpyObj('PostsService', ['getSelectedPost', 'updatePost', 'getCommentsOfPostId']);
     getSelectedPostMock = jasmine.createSpyObj('getSelectedPost', ['subscribe']);
     updatePostMock = jasmine.createSpyObj('updatePost', ['subscribe']);
+    getCommentsOfPostIdMock = jasmine.createSpyObj('getCommentsOfPostId', ['subscribe']);
     postServiceMock.getSelectedPost.and.returnValue(getSelectedPostMock);
     postServiceMock.updatePost.and.returnValue(updatePostMock);
+    postServiceMock.getCommentsOfPostId.and.returnValue(getCommentsOfPostIdMock);
     getSelectedPostMock.subscribe.and.returnValue([]);
     updatePostMock.subscribe.and.returnValue([]);
+    getCommentsOfPostIdMock.subscribe.and.returnValue([]);
     TestBed.configureTestingModule({
-      declarations: [ PostsEditComponent, MockComponent ],
-      imports: [FormsModule,
-        RouterTestingModule.withRoutes([
-        {path: '', component: MockComponent},
-        {path: 'manage', component: PostsEditComponent}
-      ])],
+      declarations: [PostsEditComponent, MockComponent],
+      imports: [
+        FormsModule, RouterTestingModule.withRoutes([
+          {
+            path: '',
+            component: MockComponent
+          }, {
+            path: 'manage',
+            component: PostsEditComponent
+          }
+        ])
+      ],
       providers: [
-        {provide: PostsService, useValue: postServiceMock}
+        {
+          provide: PostsService,
+          useValue: postServiceMock
+        }
       ]
     })
     .compileComponents();
@@ -84,8 +96,10 @@ describe('PostsEditComponent', () => {
         spyOn(router, 'navigateByUrl');
         htmlUtil.clickEvent('button.no-selection-btn-nav');
         fixture.detectChanges();
-        expect(router.navigateByUrl).toHaveBeenCalledWith(router.createUrlTree(['../']),
-        { skipLocationChange: false, replaceUrl: false });
+        expect(router.navigateByUrl).toHaveBeenCalledWith(router.createUrlTree(['../']), {
+          skipLocationChange: false,
+          replaceUrl: false
+        });
       });
 
     });
@@ -93,7 +107,6 @@ describe('PostsEditComponent', () => {
     describe('HTML DOM with post', () => {
       beforeEach(() => {
         component.post = postsMock.getOnePostWithId(2);
-        component.ngOnInit();
         fixture.detectChanges();
       });
 
@@ -119,8 +132,10 @@ describe('PostsEditComponent', () => {
         spyOn(router, 'navigateByUrl');
         htmlUtil.clickEvent('button.go-back-main');
         fixture.detectChanges();
-        expect(router.navigateByUrl).toHaveBeenCalledWith(router.createUrlTree(['../']),
-        { skipLocationChange: false, replaceUrl: false });
+        expect(router.navigateByUrl).toHaveBeenCalledWith(router.createUrlTree(['../']), {
+          skipLocationChange: false,
+          replaceUrl: false
+        });
       });
 
       it('should show Edit button', () => {
@@ -250,7 +265,7 @@ describe('PostsEditComponent', () => {
   });
 
   describe('should update post', () => {
-    beforeEach( () => {
+    beforeEach(() => {
       postsMock = new PostsMock();
       postServiceMock.updatePost.and.returnValue(of([]));
     });
@@ -280,9 +295,90 @@ describe('PostsEditComponent', () => {
       });
     });
   });
+
+  // describe('TDD Comment Dsiplay', () => {
+  //   beforeEach(() => {
+  //     htmlUtil = new IntructionsHelper(fixture);
+  //     postsMock = new PostsMock();
+  //   });
+  //
+  //   describe('HTML DOM Tests', () => {
+  //     beforeEach(() => {
+  //       component.post = postsMock.getOnePostWithId(1);
+  //       postServiceMock.getCommentsOfPostId.and.returnValue(of(postsMock.getCommentsOfPostId(component.post.id)));
+  //     });
+  //
+  //     it('should show --Display comments-- button', () => {
+  //       fixture.detectChanges();
+  //       expect(htmlUtil.singleText('button.show-comments')).toEqual('Display Comments');
+  //     });
+  //
+  //     it('should not show commments if button not clicked', () => {
+  //       fixture.detectChanges();
+  //       expect(htmlUtil.count('.comments')).toEqual(1);
+  //       expect(htmlUtil.count('.comment')).toEqual(0);
+  //     });
+  //
+  //     it('should show same comments of selected post ', () => {
+  //       component.comments = postsMock.getCommentsOfPostId(component.post.id);
+  //       fixture.detectChanges();
+  //       expect(htmlUtil.count('.comment')).toEqual(component.comments.length);
+  //     });
+  //
+  //     it('should show comments body of selected Post', () => {
+  //       component.comments = postsMock.getCommentsOfPostId(component.post.id);
+  //       fixture.detectChanges();
+  //       let elemContent = '';
+  //       htmlUtil.findAll('.comment').forEach((elem, i) => {
+  //         elemContent = elem.nativeElement.textContent;
+  //         expect(elemContent).toEqual(component.comments[i].body);
+  //       });
+  //     });
+  //   });
+  //
+  //   describe('Get Comment Of selected Post', () => {
+  //     beforeEach(() => {
+  //       postsMock = new PostsMock();
+  //       htmlUtil = new IntructionsHelper(fixture);
+  //       component.post = postsMock.getOnePostWithId(1);
+  //       postServiceMock.getCommentsOfPostId.and.returnValue(of(postsMock.getCommentsOfPostId(component.post.id)));
+  //     });
+  //     it('should call getComments when clicking button', () => {
+  //       spyOn(component, 'getComments');
+  //       fixture.detectChanges();
+  //       htmlUtil.clickEvent('button.show-comments');
+  //       expect(component.getComments).toHaveBeenCalledWith(component.post.id);
+  //     });
+  //
+  //     it('should call getCommentsOfPostId with post id', () => {
+  //       component.getComments(component.post.id);
+  //       expect(postServiceMock.getCommentsOfPostId).toHaveBeenCalledWith(component.post.id);
+  //     });
+  //
+  //     it('should call getCommentsOfPostId with post id', done => {
+  //       component.getComments(component.post.id);
+  //       postServiceMock.getCommentsOfPostId(component.post.id).subscribe(comments => {
+  //         expect(component.comments).toEqual(comments);
+  //         done();
+  //       });
+  //     });
+  //
+  //     it('should alert with error if  getCommentsOfPostId with post id return error', done => {
+  //       postServiceMock.getCommentsOfPostId.and.returnValue(throwError('error'));
+  //       spyOn(window, 'alert');
+  //       component.getComments(component.post.id);
+  //       postServiceMock.getCommentsOfPostId(component.post.id).subscribe(() => {
+  //       }, () => {
+  //         expect(window.alert).toHaveBeenCalledWith('Error fetching comment');
+  //         done();
+  //       });
+  //     });
+  //   });
+  // });
 });
 
 @Component({
   template: '<span></span>'
 })
-class MockComponent {}
+class MockComponent {
+}

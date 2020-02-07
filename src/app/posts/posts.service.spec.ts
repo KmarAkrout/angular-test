@@ -4,13 +4,16 @@ import { HttpClientTestingModule, HttpTestingController } from '@angular/common/
 import { PostsService } from './posts.service';
 import { PostsMock } from '../testing/PostsMock';
 import { Post } from './models/post';
+import { Comment } from './models/comment';
 
 describe('PostsService', () => {
   let service: PostsService;
   let httpTestingController: HttpTestingController;
   let postsMock: PostsMock;
   let postsMocked: Post[];
+  let commentsMocked: Comment[];
   const mainUrl = 'https://jsonplaceholder.typicode.com/posts';
+  const commentsUrl = 'https://jsonplaceholder.typicode.com/comments';
   beforeEach(() => TestBed.configureTestingModule({
     imports: [HttpClientTestingModule],
     providers: [PostsService]
@@ -38,7 +41,7 @@ describe('PostsService', () => {
       httpTestingController.verify(); /* checks if requests are failed or cancelled */
     });
 
-    it ('should call Get Method', () => {
+    it('should call Get Method', () => {
       service.getPostsList().subscribe(() => {
         expect(req.request.method).toEqual('GET');
       });
@@ -46,7 +49,7 @@ describe('PostsService', () => {
       req.flush(postsMocked);
     });
 
-    it ('should return posts list as expected', () => {
+    it('should return posts list as expected', () => {
       service.getPostsList().subscribe(posts => {
         expect(posts.length).toEqual(100);
       });
@@ -54,7 +57,7 @@ describe('PostsService', () => {
       req.flush(postsMocked);
     });
 
-    it ('should call Get Method with response type JSON', () => {
+    it('should call Get Method with response type JSON', () => {
       service.getPostsList().subscribe(() => {
         expect(req.request.responseType).toEqual('json');
       });
@@ -76,7 +79,7 @@ describe('PostsService', () => {
       httpTestingController.verify(); /* checks if requests are failed or cancelled */
     });
 
-    it ('should call Put Method', () => {
+    it('should call Put Method', () => {
       service.updatePost(onePost).subscribe(() => {
         expect(req.request.method).toEqual('PUT');
       });
@@ -84,7 +87,7 @@ describe('PostsService', () => {
       req.flush(onePost);
     });
 
-    it ('should return one post modified as expected', () => {
+    it('should return one post modified as expected', () => {
       service.getPostsList().subscribe(post => {
         expect(JSON.stringify(post)).toEqual(JSON.stringify(onePost));
       });
@@ -92,7 +95,7 @@ describe('PostsService', () => {
       req.flush(onePost);
     });
 
-    it ('should call Get Method with response type JSON', () => {
+    it('should call Get Method with response type JSON', () => {
       service.getPostsList().subscribe(() => {
         expect(req.request.responseType).toEqual('json');
       });
@@ -108,13 +111,13 @@ describe('PostsService', () => {
       onePost = postsMock.getOnePostWithId(1);
     });
 
-    it ('should next selectedPostSubject when seSelectedPost is called', () => {
+    it('should next selectedPostSubject when seSelectedPost is called', () => {
       const nextSpyForSelectedPost = spyOn(service['selectedPostSubject'], 'next');
       service.setSelectedPost(onePost);
       expect(service['selectedPostSubject'].next).toHaveBeenCalledWith(onePost);
     });
 
-    it ('should return selectedPostSubject getSelectedPost is called', () => {
+    it('should return selectedPostSubject getSelectedPost is called', () => {
       service.setSelectedPost(onePost);
       service.getSelectedPost().subscribe(selectedPost => {
         expect(selectedPost).toEqual(onePost);
@@ -122,4 +125,41 @@ describe('PostsService', () => {
     });
 
   });
+
+  // describe('TDD Get posts comment', () => {
+  //   const postId = 1;
+  //   beforeEach(() => {
+  //     commentsMocked = postsMock.getCommentsOfPostId(postId);
+  //     httpTestingController = TestBed.get(HttpTestingController);
+  //     service.getCommentsOfPostId(postId);
+  //   });
+  //
+  //   afterEach(() => {
+  //     httpTestingController.verify();
+  //   });
+  //
+  //   it('should call Get Method', () => {
+  //     service.getCommentsOfPostId(postId).subscribe(() => {
+  //       expect(req.request.method).toEqual('GET');
+  //     });
+  //     const req = httpTestingController.expectOne(commentsUrl + '?postId=' + postId);
+  //     req.flush(commentsMocked);
+  //   });
+  //
+  //   it('should return comments list as expected', () => {
+  //     service.getCommentsOfPostId(postId).subscribe(comments => {
+  //       expect(comments.length).toEqual(commentsMocked.length);
+  //     });
+  //     const req = httpTestingController.expectOne(commentsUrl + '?postId=' + postId);
+  //     req.flush(commentsMocked);
+  //   });
+  //
+  //   it('should call Get Method with response type JSON', () => {
+  //     service.getCommentsOfPostId(postId).subscribe(() => {
+  //       expect(req.request.responseType).toEqual('json');
+  //     });
+  //     const req = httpTestingController.expectOne(commentsUrl + '?postId=' + postId);
+  //     req.flush(commentsMocked);
+  //   });
+  // });
 });

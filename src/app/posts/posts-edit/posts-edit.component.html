@@ -18,8 +18,12 @@
     </div>
   </div>
   <div class="d-flex justify-content-end mx-5">
+    <!--    <button class="mr-2 show-comments" (click)="getComments(post.id)">Display Comments</button>-->
     <button (click)="updatePost(post)" class="edit-button btn btn-secondary">Edit Post</button>
   </div>
+  <!--  <div class="comments">-->
+  <!--    <div class="comment" *ngFor="let comment of comments">{{comment.body}}</div>-->
+  <!--  </div>-->
 </div>
 <div class="mt-5" *ngIf="!post">
   <div class="d-flex justify-content-center ">

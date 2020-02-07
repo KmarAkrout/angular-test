@@ -3,13 +3,14 @@ import { By } from '@angular/platform-browser';
 
 export class IntructionsHelper<T> {
   private testFixture: ComponentFixture<T>;
+
   constructor(private fixture: ComponentFixture<T>) {
     this.testFixture = this.fixture;
   }
 
   count(cssSelector: string): number {
     const elements = this.fixture.debugElement
-      .queryAll(By.css(cssSelector));
+    .queryAll(By.css(cssSelector));
     return elements.length;
   }
 
@@ -28,8 +29,11 @@ export class IntructionsHelper<T> {
   }
 
   findAll(tagName: string) {
-    return this.fixture.debugElement
-      .queryAll(By.css(tagName));
+    const h2Ele = this.fixture.debugElement
+    .queryAll(By.css(tagName));
+    if (h2Ele) {
+      return h2Ele;
+    }
   }
 
   clickEvent(tag: string) {

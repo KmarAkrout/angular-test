@@ -1,6 +1,7 @@
 import { Post } from '../posts/models/post';
-export class PostsMock {
+import { Comment } from '../posts/models/comment';
 
+export class PostsMock {
   getPostsList(length: number): Post[] {
     const posts: Post[] = [];
     for (let i = 0; i < length; i++) {
@@ -21,5 +22,23 @@ export class PostsMock {
       title: 'title test ',
       body: 'post body '
     };
+  }
+
+  getCommentsOfPostId(id: number): Comment[] {
+    return [
+      {
+        postId: id,
+        id: 1,
+        name: 'comment',
+        email: 'mail@mail.fr ',
+        body: 'laudantium enim quasi est quidem magnam voluptate ips'
+      }, {
+        postId: id,
+        id: 2,
+        name: 'comment2',
+        email: 'mail@ma2il.fr ',
+        body: '222m enim quasi est quidem magnam voluptate ips'
+      }
+    ];
   }
 }
